@@ -1,51 +1,28 @@
-﻿using Iot.Device.HardwareMonitor;
-using UnitsNet;
+﻿using HardwareMonitor;
 
 class Program
 {
-    public class HardwareMappingList
-    {
-        public string Identifier { get; set; }
-
-        public string HardwareName { get; set; }
-    }
-
     static void Main()
     {
-        var hardwareMappingList = new List<HardwareMappingList>();
-
-        try
+        if (!HardwareMonitorHelper.CheckHardwareMonitorAvailable())
         {
-            var monitor = new OpenHardwareMonitor();
+            Console.WriteLine("Error: OpenHardwareMonitor is not running.");
+            Console.WriteLine("Press any key to exit.");
+            Console.ReadKey();
 
-            foreach (var hardware in monitor.GetHardwareComponents())
-            {
-                hardwareMappingList.Add(new HardwareMappingList() { 
-                    Identifier = hardware.Identifier, 
-                    HardwareName = hardware.Name 
-                });
-            }
-
-            foreach (var sensor in monitor.GetSensorList())
-            {
-                if (sensor.SensorType == SensorType.Temperature) 
-                {
-                    if (sensor.TryGetValue(out IQuantity value))
-                    {
-                        var hardwareInfo = hardwareMappingList.FirstOrDefault(x => x.Identifier == sensor.Parent);
-                        Console.WriteLine($"Hardware: {hardwareInfo.HardwareName}, Name: {sensor.Name}, Sensor value: {value}");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Value could not be retrieved.");
-                    }
-                }
-            }
+            return;
         }
-        catch (Exception e)
+
+        var monitor = new HardwareMonitor.HardwareMonitor();
+
+        monitor.RegisterHardwareMappingList();
+
+        while (!Console.KeyAvailable)
         {
-            Console.WriteLine("Error: " + e.Message);
+            monitor.OutputTemprature();
+            Thread.Sleep(1000);
         }
+        Console.ReadKey();
 
         Console.WriteLine("Press any key to exit.");
         Console.ReadKey();

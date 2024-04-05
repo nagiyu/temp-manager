@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Iot.Device.Bindings" Version="3.1.0" />
+    <ProjectReference Include="..\HardwareMonitor\HardwareMonitor.csproj" />
   </ItemGroup>
 
 </Project>
