@@ -1,32 +1,53 @@
-﻿using System;
-using System.Diagnostics;
+﻿using Iot.Device.HardwareMonitor;
+using UnitsNet;
 
 class Program
 {
+    public class HardwareMappingList
+    {
+        public string Identifier { get; set; }
+
+        public string HardwareName { get; set; }
+    }
+
     static void Main()
     {
+        var hardwareMappingList = new List<HardwareMappingList>();
+
         try
         {
-            var cpuCounter = new PerformanceCounter("Thermal Zone Information", "Temperature", @"\_TZ.THRM");
+            var monitor = new OpenHardwareMonitor();
 
-            var temperature = cpuCounter.NextValue(); // 次の値を取得します
+            foreach (var hardware in monitor.GetHardwareComponents())
+            {
+                hardwareMappingList.Add(new HardwareMappingList() { 
+                    Identifier = hardware.Identifier, 
+                    HardwareName = hardware.Name 
+                });
+            }
 
-            // 温度はセルシウス温度単位で提供される
-            Console.WriteLine("CPU温度: {0} ℃", temperature);
+            foreach (var sensor in monitor.GetSensorList())
+            {
+                if (sensor.SensorType == SensorType.Temperature) 
+                {
+                    if (sensor.TryGetValue(out IQuantity value))
+                    {
+                        var hardwareInfo = hardwareMappingList.FirstOrDefault(x => x.Identifier == sensor.Parent);
+                        Console.WriteLine($"Hardware: {hardwareInfo.HardwareName}, Name: {sensor.Name}, Sensor value: {value}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Value could not be retrieved.");
+                    }
+                }
+            }
         }
         catch (Exception e)
         {
-            Console.WriteLine("エラーが発生しました: " + e.Message);
+            Console.WriteLine("Error: " + e.Message);
         }
 
-        //foreach (var category in PerformanceCounterCategory.GetCategories())
-        //{
-        //    Console.WriteLine(category.CategoryName);
-        //}
-
-        //foreach (var counter in new PerformanceCounterCategory("Thermal Zone Information").GetCounters())
-        //{
-        //    Console.WriteLine(counter.CounterName);
-        //}
+        Console.WriteLine("Press any key to exit.");
+        Console.ReadKey();
     }
 }
