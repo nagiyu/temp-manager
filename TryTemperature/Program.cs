@@ -15,11 +15,11 @@ class Program
 
         var monitor = new HardwareMonitor.HardwareMonitor();
 
-        monitor.RegisterHardwareMappingList();
+        var hardwareMappingList = monitor.RegisterHardwareMappingList();
 
         while (!Console.KeyAvailable)
         {
-            monitor.OutputTemprature();
+            Console.WriteLine(monitor.OutputTemprature(hardwareMappingList, "NVIDIA NVIDIA GeForce GTX 1070"));
             Thread.Sleep(1000);
         }
         Console.ReadKey();

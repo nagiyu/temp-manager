@@ -2,6 +2,7 @@
 using Iot.Device.HardwareMonitor;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,50 +12,59 @@ namespace HardwareMonitor
 {
     public class HardwareMonitor
     {
-        private readonly List<HardwareMappingList> HardwareMappingList = [];
+        private readonly List<HardwareMappingList> hardwareMappingList = [];
 
-        public void RegisterHardwareMappingList()
+        public List<HardwareMappingList> RegisterHardwareMappingList()
         {
             var monitor = new OpenHardwareMonitor();
 
             foreach (var hardware in monitor.GetHardwareComponents())
             {
-                HardwareMappingList.Add(new HardwareMappingList()
+                hardwareMappingList.Add(new HardwareMappingList()
                 {
                     Identifier = hardware.Identifier,
                     HardwareName = hardware.Name
                 });
             }
+
+            return hardwareMappingList;
         }
 
-        public void OutputTemprature()
+        public string OutputTemprature(List<HardwareMappingList> hardwareMappingList, string hardwareName)
         {
+            var identifier = hardwareMappingList.FirstOrDefault(x => x.HardwareName == hardwareName).Identifier;
+
             try
             {
                 var monitor = new OpenHardwareMonitor();
 
                 foreach (var sensor in monitor.GetSensorList())
                 {
-                    if (sensor.SensorType == SensorType.Temperature)
+                    if (sensor.SensorType != SensorType.Temperature)
                     {
-                        if (sensor.TryGetValue(out IQuantity value))
-                        {
-                            var hardwareInfo = HardwareMappingList.FirstOrDefault(x => x.Identifier == sensor.Parent);
-                            if (hardwareInfo.HardwareName == "NVIDIA NVIDIA GeForce GTX 1070")
-                            {
-                                Console.WriteLine($"Hardware: {hardwareInfo.HardwareName}, Name: {sensor.Name}, Sensor value: {value.Value}");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Value could not be retrieved.");
-                        }
+                        continue;
+                    }
+
+                    if (sensor.Parent != identifier)
+                    {
+                        continue;
+                    }
+
+                    if (sensor.TryGetValue(out IQuantity value))
+                    {
+                        return $"Hardware: {hardwareName}, Name: {sensor.Name}, Sensor value: {value.Value}";
+                    }
+                    else
+                    {
+                        return "Value could not be retrieved.";
                     }
                 }
+
+                return "Temperature sensor not found.";
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error: " + e.Message);
+                return "Error: " + e.Message;
             }
         }
     }
