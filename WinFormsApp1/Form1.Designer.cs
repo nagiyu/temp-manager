@@ -1,4 +1,6 @@
-﻿namespace WinFormsApp1
+﻿using HardwareMonitor;
+
+namespace WinFormsApp1
 {
     partial class Form1
     {
@@ -40,7 +42,7 @@
             // checkedListBox1
             // 
             checkedListBox1.FormattingEnabled = true;
-            checkedListBox1.Items.AddRange(hardwareMappingList.Select(x => x.HardwareName).ToArray());
+            checkedListBox1.Items.AddRange(HardwareInfo.GetHardwareNameList().ToArray());
             checkedListBox1.Location = new Point(12, 12);
             checkedListBox1.Name = "checkedListBox1";
             checkedListBox1.Size = new Size(423, 184);

@@ -1,3 +1,5 @@
+using HardwareMonitor;
+
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
@@ -8,9 +10,7 @@ namespace WinFormsApp1
 
         public Form1()
         {
-            var monitor = new HardwareMonitor.HardwareMonitor();
-            hardwareMappingList = monitor.RegisterHardwareMappingList();
-
+            HardwareInfo.RegisterHardwareMappingList();
             InitializeComponent();
         }
 
@@ -32,10 +32,9 @@ namespace WinFormsApp1
             }
 
             var checkedItems = checkedListBox1.CheckedItems.Cast<string>().ToList();
-            var monitor = new HardwareMonitor.HardwareMonitor();
             foreach (var item in checkedItems)
             {
-                textBox1.Text = monitor.OutputTemprature(hardwareMappingList, item) + Environment.NewLine + textBox1.Text;
+                textBox1.Text = HardwareMonitor.HardwareMonitor.OutputTemprature(item) + Environment.NewLine + textBox1.Text;
             }
         }
 

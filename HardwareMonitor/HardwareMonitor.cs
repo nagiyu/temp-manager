@@ -12,27 +12,9 @@ namespace HardwareMonitor
 {
     public class HardwareMonitor
     {
-        private readonly List<HardwareMappingList> hardwareMappingList = [];
-
-        public List<HardwareMappingList> RegisterHardwareMappingList()
+        public static string OutputTemprature(string hardwareName)
         {
-            var monitor = new OpenHardwareMonitor();
-
-            foreach (var hardware in monitor.GetHardwareComponents())
-            {
-                hardwareMappingList.Add(new HardwareMappingList()
-                {
-                    Identifier = hardware.Identifier,
-                    HardwareName = hardware.Name
-                });
-            }
-
-            return hardwareMappingList;
-        }
-
-        public string OutputTemprature(List<HardwareMappingList> hardwareMappingList, string hardwareName)
-        {
-            var identifier = hardwareMappingList.FirstOrDefault(x => x.HardwareName == hardwareName).Identifier;
+            var identifier = HardwareInfo.GetIdentifier(hardwareName);
 
             try
             {
