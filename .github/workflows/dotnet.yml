@@ -26,7 +26,7 @@ jobs:
       #   run: dotnet restore
 
       - name: Build
-        run: dotnet build --configuration Release --project HardwareMonitor/HardwareMonitor.csproj
+        run: dotnet build --configuration Release --project WinFormsApp1/WinFormsApp1.csproj
 
       # - name: Test with the dotnet CLI
       #   run: dotnet test
