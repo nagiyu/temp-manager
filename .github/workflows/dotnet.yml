@@ -29,21 +29,13 @@ jobs:
         run: dotnet restore WinFormsApp1/WinFormsApp1.csproj
 
       - name: Build
-        run: dotnet build WinFormsApp1/WinFormsApp1.csproj
+        run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true /p:PublishTrimmed=true WinFormsApp1/WinFormsApp1.csproj
 
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
         with:
-          files: |
-            WinFormsApp1/bin/Debug/net8.0-windows/WinFormsApp1.exe
-          tag_name: ${{ github.run_id }}
-          release_name: ${{ github.run_id }}
-          body: |
-            Changes in this Release
-            - First release
+          name: WinFormsApp1.exe
+          path: WinFormsApp1/bin/Debug/net8.0-windows/WinFormsApp1.exe
 
       # - name: Build
       #   run: dotnet run --project WinFormsApp1/WinFormsApp1.csproj
