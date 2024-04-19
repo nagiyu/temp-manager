@@ -29,7 +29,7 @@ jobs:
         run: dotnet restore WinFormsApp1/WinFormsApp1.csproj
 
       - name: Build
-        run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true /p:PublishTrimmed=true WinFormsApp1/WinFormsApp1.csproj
+        run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true WinFormsApp1/WinFormsApp1.csproj
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
