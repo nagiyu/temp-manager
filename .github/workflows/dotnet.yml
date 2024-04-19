@@ -35,7 +35,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: WinFormsApp1.exe
-          path: WinFormsApp1/bin/Debug/net8.0-windows/WinFormsApp1.exe
+          path: WinFormsApp1/bin/Release/net8.0-windows/win-x64/publish/WinFormsApp1.exe
 
       # - name: Build
       #   run: dotnet run --project WinFormsApp1/WinFormsApp1.csproj
