@@ -33,7 +33,7 @@ jobs:
 
       - name: Commit build artifacts
         run: |
-          git config --local user.email "
+          git config --local user.email ""
           git config --local user.name "GitHub Actions"
           git add -A
           git commit -m "Add build artifacts"
