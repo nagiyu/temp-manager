@@ -19,16 +19,16 @@ jobs:
         run: dotnet --version
 
       - name: Install dependencies
-        run: dotnet restore WinFormsApp1/WinFormsApp1.csproj
+        run: dotnet restore WinFormsApp1\WinFormsApp1.csproj
 
       - name: Build
-        run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true WinFormsApp1/WinFormsApp1.csproj
+        run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true WinFormsApp1\WinFormsApp1.csproj
 
       - name: Compress build artifact
-        run: 7z a $Env:TEMP/compressed-artifact.zip WinFormsApp1/bin/Release/net8.0-windows/win-x64/publish/WinFormsApp1.exe
+        run: 7z a ${{ env.TEMP }}\compressed-artifact.zip WinFormsApp1\bin\Release\net8.0-windows\win-x64\publish\WinFormsApp1.exe
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
           name: WinFormsApp1
-          path: $Env:TEMP
+          path: ${{ env.TEMP }}\compressed-artifact.zip
