@@ -31,11 +31,9 @@ jobs:
       - name: Build
         run: dotnet build WinFormsApp1/WinFormsApp1.csproj
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-artifacts
-          path: WinFormsApp1/bin/Debug/net5.0
+      - name: Zip build artifacts
+        run: 7z a build-artifacts.zip WinFormsApp1/bin/Debug/net8.0-windows
+        shell: pwsh
 
       # - name: Build
       #   run: dotnet run --project WinFormsApp1/WinFormsApp1.csproj
