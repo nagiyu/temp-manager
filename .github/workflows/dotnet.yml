@@ -24,11 +24,11 @@ jobs:
       - name: Build
         run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true WinFormsApp1\WinFormsApp1.csproj
 
-      - name: Compress build artifact
-        run: 7z a ${{ env.TEMP }}\compressed-artifact.zip WinFormsApp1\bin\Release\net8.0-windows\win-x64\publish\WinFormsApp1.exe
+      - name: Copy build artifact
+        run: cp WinFormsApp1\bin\Release\net8.0-windows\win-x64\publish\WinFormsApp1.exe ${{ runner.temp }}\WinFormsApp1
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
           name: WinFormsApp1
-          path: ${{ env.TEMP }}\compressed-artifact.zip
+          path: ${{ runner.temp }}\WinFormsApp1
