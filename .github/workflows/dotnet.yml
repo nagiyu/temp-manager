@@ -31,9 +31,13 @@ jobs:
       - name: Build
         run: dotnet build WinFormsApp1/WinFormsApp1.csproj
 
-      - name: Zip build artifacts
-        run: 7z a build-artifacts.zip WinFormsApp1/bin/Debug/net8.0-windows
-        shell: pwsh
+      - name: Commit build artifacts
+        run: |
+          git config --local user.email "
+          git config --local user.name "GitHub Actions"
+          git add -A
+          git commit -m "Add build artifacts"
+          git push
 
       # - name: Build
       #   run: dotnet run --project WinFormsApp1/WinFormsApp1.csproj
