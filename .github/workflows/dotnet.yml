@@ -25,10 +25,10 @@ jobs:
         run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true WinFormsApp1\WinFormsApp1.csproj
 
       - name: Copy build artifact
-        run: cp WinFormsApp1\bin\Release\net8.0-windows\win-x64\publish\WinFormsApp1.exe ${{ runner.temp }}\WinFormsApp1
+        run: cp WinFormsApp1\bin\Release\net8.0-windows\win-x64\publish\WinFormsApp1.exe ${{ runner.temp }}\WinFormsApp1.exe
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
-          name: WinFormsApp1
-          path: ${{ runner.temp }}\WinFormsApp1
+          name: TempManager
+          path: ${{ runner.temp }}\WinFormsApp1.exe
