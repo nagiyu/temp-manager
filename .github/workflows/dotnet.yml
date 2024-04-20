@@ -1,0 +1,34 @@
+name: dotnet package
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup dotnet '8.x'
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.x'
+
+      - name: Display dotnet version
+        run: dotnet --version
+
+      - name: Install dependencies
+        run: dotnet restore WinFormsApp1\WinFormsApp1.csproj
+
+      - name: Build
+        run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true WinFormsApp1\WinFormsApp1.csproj
+
+      - name: Copy build artifact
+        run: cp WinFormsApp1\bin\Release\net8.0-windows\win-x64\publish\WinFormsApp1.exe ${{ runner.temp }}\WinFormsApp1.exe
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: TempManager
+          path: ${{ runner.temp }}\WinFormsApp1.exe
