@@ -19,7 +19,9 @@ jobs:
         run: dotnet --version
 
       - name: Install dependencies
-        run: dotnet restore WindowsFormsApp1\WindowsFormsApp1.csproj
+        run: |
+          dotnet restore WindowsFormsApp1\WindowsFormsApp1.csproj
+          nuget restore WindowsFormsApp1\WindowsFormsApp1.csproj
 
       - name: Build
         run: dotnet build WindowsFormsApp1\WindowsFormsApp1.csproj -c Release
