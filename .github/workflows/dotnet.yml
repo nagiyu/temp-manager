@@ -22,7 +22,7 @@ jobs:
           msbuild -t:restore WindowsFormsApp1\WindowsFormsApp1.csproj
 
       - name: NuGet restore
-        run: nuget restore WindowsFormsApp1.sln
+        run: nuget restore TempManager.sln
 
       - name: Clean
         run: msbuild -t:Clean -p:Configuration=Release WindowsFormsApp1\WindowsFormsApp1.csproj
