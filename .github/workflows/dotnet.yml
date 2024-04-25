@@ -23,6 +23,9 @@ jobs:
           dotnet restore WindowsFormsApp1\WindowsFormsApp1.csproj
           nuget restore WindowsFormsApp1\WindowsFormsApp1.csproj
 
+      - name: Clean
+        run: dotnet clean WindowsFormsApp1\WindowsFormsApp1.csproj -c Release
+
       - name: Build
         run: dotnet build WindowsFormsApp1\WindowsFormsApp1.csproj -c Release
 
