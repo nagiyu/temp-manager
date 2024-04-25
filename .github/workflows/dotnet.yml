@@ -10,30 +10,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup dotnet '8.x'
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '8.x'
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.2
 
-      - name: Display dotnet version
-        run: dotnet --version
+      - name: Display MSBuild version
+        run: msbuild -version
 
       - name: Submodule init and update
         run: git submodule update --init --recursive
 
-      - name: Install dependencies
+      - name: Restore dependencies
         run: |
-          dotnet restore WindowsFormsApp1\WindowsFormsApp1.csproj
-          nuget restore WindowsFormsApp1\WindowsFormsApp1.csproj
+          msbuild -t:restore WindowsFormsApp1\WindowsFormsApp1.csproj
 
       - name: Clean
-        run: dotnet clean WindowsFormsApp1\WindowsFormsApp1.csproj -c Release
+        run: msbuild -t:Clean -p:Configuration=Release WindowsFormsApp1\WindowsFormsApp1.csproj
 
       - name: Build
-        run: dotnet build WindowsFormsApp1\WindowsFormsApp1.csproj -c Release
+        run: msbuild -t:Build -p:Configuration=Release WindowsFormsApp1\WindowsFormsApp1.csproj
 
       # - name: Copy build artifact
-      #   run: cp WindowsFormsApp1\bin\Release\net8.0-windows\win-x64\publish\WindowsFormsApp1.exe ${{ runner.temp }}\WindowsFormsApp1.exe
+      #   run: cp WindowsFormsApp1\bin\Release\net48\WindowsFormsApp1.exe ${{ runner.temp }}\WindowsFormsApp1.exe
 
       # - name: Upload build artifact
       #   uses: actions/upload-artifact@v2
