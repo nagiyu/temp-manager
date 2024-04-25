@@ -19,16 +19,16 @@ jobs:
         run: dotnet --version
 
       - name: Install dependencies
-        run: dotnet restore WinFormsApp1\WinFormsApp1.csproj
+        run: dotnet restore WindowsFormsApp1\WindowsFormsApp1.csproj
 
       - name: Build
-        run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true WinFormsApp1\WinFormsApp1.csproj
+        run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true WindowsFormsApp1\WindowsFormsApp1.csproj
 
-      - name: Copy build artifact
-        run: cp WinFormsApp1\bin\Release\net8.0-windows\win-x64\publish\WinFormsApp1.exe ${{ runner.temp }}\WinFormsApp1.exe
+      # - name: Copy build artifact
+      #   run: cp WindowsFormsApp1\bin\Release\net8.0-windows\win-x64\publish\WindowsFormsApp1.exe ${{ runner.temp }}\WindowsFormsApp1.exe
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: TempManager
-          path: ${{ runner.temp }}\WinFormsApp1.exe
+      # - name: Upload build artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: TempManager
+      #     path: ${{ runner.temp }}\WindowsFormsApp1.exe
