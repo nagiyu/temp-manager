@@ -1,7 +1,7 @@
-﻿using OpenHardwareMonitor.Hardware;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,19 +15,22 @@ namespace WindowsFormsApp1
         [STAThread]
         static void Main()
         {
-            var computer = new Computer
+            Thread thread1 = new Thread(() =>
             {
-                CPUEnabled = true,
-                GPUEnabled = true
-            };
+                OpenHardwareMonitor.Program.Main();
+            });
 
-            computer.Open();
+            Thread thread2 = new Thread(() =>
+            {
+                Thread.Sleep(3000);
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new Form1());
+            });
 
-            Application.ApplicationExit += (sender, e) => computer.Close();
+            thread1.Start();
+            thread2.Start();
         }
     }
 }

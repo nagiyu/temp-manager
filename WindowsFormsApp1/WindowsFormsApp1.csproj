@@ -80,9 +80,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\openhardwaremonitor\OpenHardwareMonitorLib.csproj">
-      <Project>{b0397530-545a-471d-bb74-027ae456df1a}</Project>
-      <Name>OpenHardwareMonitorLib</Name>
+    <ProjectReference Include="..\openhardwaremonitor\OpenHardwareMonitor.csproj">
+      <Project>{f5e0c1f7-9e9b-46f2-ac88-8c9c1c923880}</Project>
+      <Name>OpenHardwareMonitor</Name>
     </ProjectReference>
     <ProjectReference Include="..\WinHardwareMonitor\WinHardwareMonitor.csproj">
       <Project>{8c8c269b-0b30-43c2-9454-2bc319bbe577}</Project>
