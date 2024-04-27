@@ -1,10 +1,11 @@
-using HardwareMonitor;
+using OHMService;
+using OHMService.Models;
 
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
-        private List<HardwareMonitor.Models.HardwareMappingList> hardwareMappingList = [];
+        private List<HardwareMappingList> hardwareMappingList = [];
 
         private bool isMonitoring = false;
 
@@ -34,7 +35,7 @@ namespace WinFormsApp1
             var checkedItems = checkedListBox1.CheckedItems.Cast<string>().ToList();
             foreach (var item in checkedItems)
             {
-                textBox1.Text = HardwareMonitor.HardwareMonitor.OutputTemprature(item) + Environment.NewLine + textBox1.Text;
+                textBox1.Text = HardwareMonitor.OutputTemprature(item) + Environment.NewLine + textBox1.Text;
             }
         }
 

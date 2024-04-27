@@ -1,4 +1,4 @@
-﻿using HardwareMonitor;
+﻿using OHMService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -41,7 +41,7 @@ namespace WindowsFormsApp1
             var checkedItems = checkedListBox1.CheckedItems.Cast<string>().ToList();
             foreach (var item in checkedItems)
             {
-                textBox1.Text = HardwareMonitor.HardwareMonitor.OutputTemprature(item) + Environment.NewLine + textBox1.Text;
+                textBox1.Text = HardwareMonitor.OutputTemprature(item) + Environment.NewLine + textBox1.Text;
             }
         }
 

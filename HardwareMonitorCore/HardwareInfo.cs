@@ -1,12 +1,12 @@
-﻿using HardwareMonitor.Models;
-using Iot.Device.HardwareMonitor;
+﻿using Iot.Device.HardwareMonitor;
+using OHMService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardwareMonitor
+namespace OHMService
 {
     public class HardwareInfo
     {

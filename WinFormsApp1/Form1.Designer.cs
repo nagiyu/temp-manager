@@ -1,4 +1,4 @@
-﻿using HardwareMonitor;
+﻿using OHMService;
 
 namespace WinFormsApp1
 {
