@@ -31,7 +31,9 @@ jobs:
         run: msbuild -t:Build -p:Configuration=Release WindowsFormsApp1\WindowsFormsApp1.csproj
 
       - name: Archive build artifact
-        run: 7z a -tzip ${{ runner.temp }}\WindowsFormsApp1.zip WindowsFormsApp1\bin\Release\*
+        run: |
+          cd WindowsFormsApp1\bin\Release
+          7z a -tzip ${{ runner.temp }}\WindowsFormsApp1.zip *
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
