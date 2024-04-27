@@ -1,5 +1,3 @@
-name: dotnet package
-
 on: [push]
 
 jobs:
@@ -10,25 +8,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup dotnet '8.x'
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '8.x'
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.0.2
 
-      - name: Display dotnet version
-        run: dotnet --version
+      - name: Display MSBuild version
+        run: msbuild -version
 
-      - name: Install dependencies
-        run: dotnet restore WinFormsApp1\WinFormsApp1.csproj
+      - name: Submodule init and update
+        run: git submodule update --init --recursive
+
+      - name: Restore dependencies
+        run: |
+          msbuild -t:restore WindowsFormsApp1\WindowsFormsApp1.csproj
+
+      - name: NuGet restore
+        run: nuget restore TempManager.sln
+
+      - name: Clean
+        run: msbuild -t:Clean -p:Configuration=Release WindowsFormsApp1\WindowsFormsApp1.csproj
 
       - name: Build
-        run: dotnet publish -r win-x64 -c Release /p:PublishSingleFile=true WinFormsApp1\WinFormsApp1.csproj
+        run: msbuild -t:Build -p:Configuration=Release WindowsFormsApp1\WindowsFormsApp1.csproj
 
-      - name: Copy build artifact
-        run: cp WinFormsApp1\bin\Release\net8.0-windows\win-x64\publish\WinFormsApp1.exe ${{ runner.temp }}\WinFormsApp1.exe
+      - name: Archive build artifact
+        run: |
+          cd WindowsFormsApp1\bin\Release
+          7z a -tzip ${{ runner.temp }}\WindowsFormsApp1.zip *
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
           name: TempManager
-          path: ${{ runner.temp }}\WinFormsApp1.exe
+          path: ${{ runner.temp }}\WindowsFormsApp1.zip
