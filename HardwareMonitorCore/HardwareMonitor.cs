@@ -1,4 +1,4 @@
-﻿using HardwareMonitor.Models;
+﻿using OHMService.Models;
 using Iot.Device.HardwareMonitor;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnitsNet;
 
-namespace HardwareMonitor
+namespace OHMService
 {
     public class HardwareMonitor
     {

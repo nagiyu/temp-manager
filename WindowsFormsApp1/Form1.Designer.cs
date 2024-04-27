@@ -1,4 +1,4 @@
-﻿using HardwareMonitor;
+﻿using OHMService;
 using System.Drawing;
 using System.Windows.Forms;
 

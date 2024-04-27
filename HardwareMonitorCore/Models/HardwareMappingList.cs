@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HardwareMonitor.Models
+namespace OHMService.Models
 {
     public class HardwareMappingList
     {
