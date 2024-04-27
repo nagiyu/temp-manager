@@ -28,13 +28,13 @@ jobs:
         run: msbuild -t:Clean -p:Configuration=Release WindowsFormsApp1\WindowsFormsApp1.csproj
 
       - name: Build
-        run: msbuild -t:Build -p:Configuration=Release -p:PublishSingleFile=true -p:PublishTrimmed=true -p:PublishReadyToRun=true WindowsFormsApp1\WindowsFormsApp1.csproj
+        run: msbuild -t:Build -p:Configuration=Release WindowsFormsApp1\WindowsFormsApp1.csproj
 
-      - name: Copy build artifact
-        run: cp WindowsFormsApp1\bin\Release\WindowsFormsApp1.exe ${{ runner.temp }}\WindowsFormsApp1.exe
+      - name: Archive build artifact
+        run: 7z a -tzip ${{ runner.temp }}\WindowsFormsApp1.zip WindowsFormsApp1\bin\Release\*
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
           name: TempManager
-          path: ${{ runner.temp }}\WindowsFormsApp1.exe
+          path: ${{ runner.temp }}\WindowsFormsApp1.zip
