@@ -1,4 +1,4 @@
-﻿using OHMService;
+using OHMService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,6 +17,7 @@ namespace WindowsFormsApp1
 
         public Form1()
         {
+            Task.Run(() => OpenHardwareMonitor.Program.Main());
             HardwareInfo.RegisterHardwareMappingList();
             InitializeComponent();
         }

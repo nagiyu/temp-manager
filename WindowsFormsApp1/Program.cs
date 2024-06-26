@@ -15,22 +15,9 @@ namespace WindowsFormsApp1
         [STAThread]
         static void Main()
         {
-            Thread thread1 = new Thread(() =>
-            {
-                OpenHardwareMonitor.Program.Main();
-            });
-
-            Thread thread2 = new Thread(() =>
-            {
-                Thread.Sleep(3000);
-
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new Form1());
-            });
-
-            thread1.Start();
-            thread2.Start();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
         }
     }
 }
