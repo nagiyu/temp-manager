@@ -61,8 +61,7 @@ namespace WindowsFormsApp1
 
             if (saveFileDialog.FileName != "")
             {
-                //System.IO.File.WriteAllText(saveFileDialog.FileName, textBox1.Text);
-                System.IO.File.WriteAllText(saveFileDialog.FileName, "xxxxxx");
+                System.IO.File.WriteAllText(saveFileDialog.FileName, textBox1.Text);
             }
         }
     }
