@@ -1,4 +1,4 @@
-using OHMService;
+﻿using OHMService;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -49,6 +49,21 @@ namespace WindowsFormsApp1
         private void Click_Clear(object sender, EventArgs e)
         {
             textBox1.Text = "";
+        }
+
+        private void Click_OutputText(object sender, EventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.FileName = "output.txt";
+            saveFileDialog.Filter = "Text File | *.txt";
+            saveFileDialog.Title = "Save an Text File";
+            saveFileDialog.ShowDialog();
+
+            if (saveFileDialog.FileName != "")
+            {
+                //System.IO.File.WriteAllText(saveFileDialog.FileName, textBox1.Text);
+                System.IO.File.WriteAllText(saveFileDialog.FileName, "xxxxxx");
+            }
         }
     }
 }

@@ -39,6 +39,7 @@ namespace WindowsFormsApp1
             timer1 = new System.Windows.Forms.Timer(components);
             button2 = new Button();
             button3 = new Button();
+            outputTextButton = new Button();
             SuspendLayout();
             // 
             // checkedListBox1
@@ -79,6 +80,16 @@ namespace WindowsFormsApp1
             button3.Text = "Clear";
             button3.UseVisualStyleBackColor = true;
             button3.Click += Click_Clear;
+
+            // OutputTextButton
+            outputTextButton.Location = new Point(441, 202);
+            outputTextButton.Name = "outputTextButton";
+            outputTextButton.Size = new Size(137, 23);
+            outputTextButton.TabIndex = 6;
+            outputTextButton.Text = "Output Text";
+            outputTextButton.UseVisualStyleBackColor = true;
+            outputTextButton.Click += Click_OutputText;
+
             // 
             // textBox1
             // 
@@ -100,6 +111,7 @@ namespace WindowsFormsApp1
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(outputTextButton);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(textBox1);
@@ -119,6 +131,7 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Timer timer1;
         private Button button2;
         private Button button3;
+        private Button outputTextButton;
     }
 }
 
