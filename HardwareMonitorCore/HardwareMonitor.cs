@@ -7,14 +7,53 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnitsNet;
+using Common;
 
 namespace OHMService
 {
     public class HardwareMonitor
     {
+        public static List<HardwareMappingList> GetHardwareComponents()
+        {
+            if (Utils.IsDebugging())
+            {
+                return new List<HardwareMappingList>()
+                {
+                    new HardwareMappingList()
+                    {
+                        Identifier = "CPU",
+                        HardwareName = "Intel Core i7-8700K"
+                    },
+                    new HardwareMappingList()
+                    {
+                        Identifier = "GPU",
+                        HardwareName = "NVIDIA GeForce RTX 2080 Ti"
+                    }
+                };
+            }
+
+            var monitor = new OpenHardwareMonitor();
+            var hardwareMappingList = new List<HardwareMappingList>();
+            foreach (var hardware in monitor.GetHardwareComponents())
+            {
+                hardwareMappingList.Add(new HardwareMappingList()
+                {
+                    Identifier = hardware.Identifier,
+                    HardwareName = hardware.Name
+                });
+            }
+
+            return hardwareMappingList;
+        }
+
         public static string OutputTemprature(string hardwareName)
         {
             var identifier = HardwareInfo.GetIdentifier(hardwareName);
+
+            if (Utils.IsDebugging())
+            {
+                return $"Hardware: {hardwareName}, Name: {"Sensor"}, Sensor value: {"hogehoge"}";
+            }
 
             try
             {
