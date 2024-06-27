@@ -145,6 +145,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{2841f74b-05bf-41e4-925f-fb4222bac515}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HardwareMonitorCore\OHMService.csproj">
       <Project>{29050c78-e001-4c01-8a74-ffecdf937e4e}</Project>
       <Name>OHMService</Name>

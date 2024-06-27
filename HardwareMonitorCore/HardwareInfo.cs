@@ -10,20 +10,11 @@ namespace OHMService
 {
     public class HardwareInfo
     {
-        private static readonly List<HardwareMappingList> hardwareMappingList = [];
+        private static List<HardwareMappingList> hardwareMappingList = [];
 
         public static void RegisterHardwareMappingList()
         {
-            var monitor = new OpenHardwareMonitor();
-
-            foreach (var hardware in monitor.GetHardwareComponents())
-            {
-                hardwareMappingList.Add(new HardwareMappingList()
-                {
-                    Identifier = hardware.Identifier,
-                    HardwareName = hardware.Name
-                });
-            }
+            hardwareMappingList = HardwareMonitor.GetHardwareComponents();
         }
 
         public static List<string> GetHardwareNameList()
