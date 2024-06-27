@@ -69,5 +69,35 @@ namespace WindowsFormsApp1
                 System.IO.File.WriteAllText(saveFileDialog.FileName, textBox1.Text);
             }
         }
+
+        private void Click_OutputExcel(object sender, EventArgs e)
+        {
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.FileName = "output.xlsx";
+            saveFileDialog.Filter = "Excel File | *.xlsx";
+            saveFileDialog.Title = "Save an Excel File";
+            saveFileDialog.ShowDialog();
+
+            if (saveFileDialog.FileName != "")
+            {
+                var workbook = new ClosedXML.Excel.XLWorkbook();
+                var worksheet = workbook.Worksheets.Add("Sheet1");
+                worksheet.Cell("A1").Value = "Name";
+                worksheet.Cell("B1").Value = "Sensor";
+                worksheet.Cell("C1").Value = "Value";
+                // textBox1.Text を 1行ずつ A2 セルから記入
+                var lines = textBox1.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    var line = lines[i].Split(',');
+                    for (int j = 0; j < line.Length; j++)
+                    {
+                        worksheet.Cell(i + 2, j + 1).Value = line[j].Split(':').Last().Trim();
+                    }
+                }
+
+                workbook.SaveAs(saveFileDialog.FileName);
+            }
+        }
     }
 }

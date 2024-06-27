@@ -40,6 +40,7 @@ namespace WindowsFormsApp1
             button2 = new Button();
             button3 = new Button();
             outputTextButton = new Button();
+            outputExcelButton = new Button();
             SuspendLayout();
             // 
             // checkedListBox1
@@ -90,6 +91,15 @@ namespace WindowsFormsApp1
             outputTextButton.UseVisualStyleBackColor = true;
             outputTextButton.Click += Click_OutputText;
 
+            // OutputExcelButton
+            outputExcelButton.Location = new Point(584, 202);
+            outputExcelButton.Name = "outputExcelButton";
+            outputExcelButton.Size = new Size(137, 23);
+            outputExcelButton.TabIndex = 7;
+            outputExcelButton.Text = "Output Excel";
+            outputExcelButton.UseVisualStyleBackColor = true;
+            outputExcelButton.Click += Click_OutputExcel;
+
             // 
             // textBox1
             // 
@@ -111,6 +121,7 @@ namespace WindowsFormsApp1
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(outputExcelButton);
             Controls.Add(outputTextButton);
             Controls.Add(button3);
             Controls.Add(button2);
@@ -132,6 +143,9 @@ namespace WindowsFormsApp1
         private Button button2;
         private Button button3;
         private Button outputTextButton;
+
+        // OutputExcelButton
+        private Button outputExcelButton;
     }
 }
 
