@@ -10,37 +10,50 @@ namespace OHMService
 {
     public class HardwareMonitor
     {
+        // Constants for error messages and debug values
+        private const string DebugSensorName = "Sensor";
+        private const string DebugSensorValue = "hogehoge";
+        private const string ErrorValueNotRetrieved = "Value could not be retrieved.";
+        private const string ErrorSensorNotFound = "Temperature sensor not found.";
+        private const string ErrorPrefix = "Error: ";
+        
         public static List<HardwareMappingList> GetHardwareComponents()
         {
             if (Utils.IsDebugging())
             {
-                return new List<HardwareMappingList>()
-                {
-                    new HardwareMappingList()
-                    {
-                        Identifier = "CPU",
-                        HardwareName = "Intel Core i7-8700K"
-                    },
-                    new HardwareMappingList()
-                    {
-                        Identifier = "GPU",
-                        HardwareName = "NVIDIA GeForce RTX 2080 Ti"
-                    }
-                };
+                return GetDebugHardwareComponents();
             }
 
-            var monitor = new OpenHardwareMonitor();
-            var hardwareMappingList = new List<HardwareMappingList>();
-            foreach (var hardware in monitor.GetHardwareComponents())
+            return GetRealHardwareComponents();
+        }
+
+        private static List<HardwareMappingList> GetDebugHardwareComponents()
+        {
+            return new List<HardwareMappingList>
             {
-                hardwareMappingList.Add(new HardwareMappingList()
+                new HardwareMappingList
+                {
+                    Identifier = "CPU",
+                    HardwareName = "Intel Core i7-8700K"
+                },
+                new HardwareMappingList
+                {
+                    Identifier = "GPU",
+                    HardwareName = "NVIDIA GeForce RTX 2080 Ti"
+                }
+            };
+        }
+
+        private static List<HardwareMappingList> GetRealHardwareComponents()
+        {
+            var monitor = new OpenHardwareMonitor();
+            return monitor.GetHardwareComponents()
+                .Select(hardware => new HardwareMappingList
                 {
                     Identifier = hardware.Identifier,
                     HardwareName = hardware.Name
-                });
-            }
-
-            return hardwareMappingList;
+                })
+                .ToList();
         }
 
         public static string OutputTemperature(string hardwareName)
@@ -49,40 +62,37 @@ namespace OHMService
 
             if (Utils.IsDebugging())
             {
-                return $"Hardware: {hardwareName}, Name: {"Sensor"}, Sensor value: {"hogehoge"}";
+                return $"Hardware: {hardwareName}, Name: {DebugSensorName}, Sensor value: {DebugSensorValue}";
+            }
+
+            if (string.IsNullOrEmpty(identifier))
+            {
+                return ErrorSensorNotFound;
             }
 
             try
             {
                 var monitor = new OpenHardwareMonitor();
+                
+                var temperatureSensor = monitor.GetSensorList()
+                    .Where(sensor => sensor.SensorType == SensorType.Temperature)
+                    .FirstOrDefault(sensor => sensor.Parent == identifier);
 
-                foreach (var sensor in monitor.GetSensorList())
+                if (temperatureSensor == null)
                 {
-                    if (sensor.SensorType != SensorType.Temperature)
-                    {
-                        continue;
-                    }
-
-                    if (sensor.Parent != identifier)
-                    {
-                        continue;
-                    }
-
-                    if (sensor.TryGetValue(out IQuantity value))
-                    {
-                        return $"Hardware: {hardwareName}, Name: {sensor.Name}, Sensor value: {value.Value}";
-                    }
-                    else
-                    {
-                        return "Value could not be retrieved.";
-                    }
+                    return ErrorSensorNotFound;
                 }
 
-                return "Temperature sensor not found.";
+                if (temperatureSensor.TryGetValue(out IQuantity value))
+                {
+                    return $"Hardware: {hardwareName}, Name: {temperatureSensor.Name}, Sensor value: {value.Value}";
+                }
+
+                return ErrorValueNotRetrieved;
             }
             catch (Exception e)
             {
-                return "Error: " + e.Message;
+                return ErrorPrefix + e.Message;
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Common
 {
@@ -13,6 +12,5 @@ namespace Common
         {
             return Debugger.IsAttached;
         }
-
     }
 }
