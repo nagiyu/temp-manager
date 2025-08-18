@@ -1,5 +1,7 @@
 using OHMService;
 using OHMService.Models;
+using System.Linq;
+using System.Text;
 
 namespace WinFormsApp1
 {
@@ -15,7 +17,7 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
-        private void Click_GetTempreture(object sender, EventArgs e)
+        private void Click_GetTemperature(object sender, EventArgs e)
         {
             isMonitoring = true;
         }
@@ -32,10 +34,25 @@ namespace WinFormsApp1
                 return;
             }
 
-            var checkedItems = checkedListBox1.CheckedItems.Cast<string>().ToList();
-            foreach (var item in checkedItems)
+            var checkedItems = checkedListBox1.CheckedItems.Cast<string>();
+            var newEntries = checkedItems
+                .Select(item => HardwareMonitor.OutputTemperature(item))
+                .Where(entry => !string.IsNullOrEmpty(entry));
+
+            if (newEntries.Any())
             {
-                textBox1.Text = HardwareMonitor.OutputTemprature(item) + Environment.NewLine + textBox1.Text;
+                var stringBuilder = new StringBuilder();
+                foreach (var entry in newEntries)
+                {
+                    stringBuilder.AppendLine(entry);
+                }
+                
+                if (!string.IsNullOrEmpty(textBox1.Text))
+                {
+                    stringBuilder.Append(textBox1.Text);
+                }
+                
+                textBox1.Text = stringBuilder.ToString();
             }
         }
 

@@ -2,10 +2,7 @@
 using Iot.Device.HardwareMonitor;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnitsNet;
 using Common;
 
@@ -46,7 +43,7 @@ namespace OHMService
             return hardwareMappingList;
         }
 
-        public static string OutputTemprature(string hardwareName)
+        public static string OutputTemperature(string hardwareName)
         {
             var identifier = HardwareInfo.GetIdentifier(hardwareName);
 
