@@ -37,6 +37,7 @@ namespace WinFormsApp1
             timer1 = new System.Windows.Forms.Timer(components);
             button2 = new Button();
             button3 = new Button();
+            checkBoxLogging = new CheckBox();
             SuspendLayout();
             // 
             // checkedListBox1
@@ -56,7 +57,7 @@ namespace WinFormsApp1
             button1.TabIndex = 1;
             button1.Text = "Get Tempreture";
             button1.UseVisualStyleBackColor = true;
-            button1.Click += Click_GetTempreture;
+            button1.Click += Click_GetTemperature;
             // 
             // button2
             // 
@@ -77,6 +78,18 @@ namespace WinFormsApp1
             button3.Text = "Clear";
             button3.UseVisualStyleBackColor = true;
             button3.Click += Click_Clear;
+            
+            // 
+            // checkBoxLogging
+            // 
+            checkBoxLogging.AutoSize = true;
+            checkBoxLogging.Location = new Point(441, 12);
+            checkBoxLogging.Name = "checkBoxLogging";
+            checkBoxLogging.Size = new Size(128, 19);
+            checkBoxLogging.TabIndex = 6;
+            checkBoxLogging.Text = "Enable Log Output";
+            checkBoxLogging.UseVisualStyleBackColor = true;
+            checkBoxLogging.CheckedChanged += CheckBoxLogging_CheckedChanged;
             // 
             // textBox1
             // 
@@ -98,6 +111,7 @@ namespace WinFormsApp1
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(checkBoxLogging);
             Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(textBox1);
@@ -117,5 +131,6 @@ namespace WinFormsApp1
         private System.Windows.Forms.Timer timer1;
         private Button button2;
         private Button button3;
+        private CheckBox checkBoxLogging;
     }
 }

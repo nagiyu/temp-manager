@@ -1,6 +1,8 @@
 ﻿using Common;
 using OHMService;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +25,14 @@ namespace WindowsFormsApp1
         private const string HeaderSensor = "Sensor";
         private const string HeaderValue = "Value";
         
+        // Log file constants
+        private const string DefaultLogFileName = "monitoring_log.txt";
+        private const string LogFileFilter = "Log File | *.txt";
+        private const string SelectLogFileTitle = "Select Log File Path";
+        
         private bool isMonitoring = false;
+        private bool isLoggingEnabled = false;
+        private string logFilePath = string.Empty;
 
         public Form1()
         {
@@ -78,6 +87,12 @@ namespace WindowsFormsApp1
                 }
                 
                 textBox1.Text = stringBuilder.ToString();
+                
+                // Write to log file if logging is enabled
+                if (isLoggingEnabled && !string.IsNullOrEmpty(logFilePath))
+                {
+                    WriteToLogFile(allEntries);
+                }
             }
         }
 
@@ -141,6 +156,79 @@ namespace WindowsFormsApp1
                 WriteExcelData(worksheet, textBox1.Text);
                 
                 workbook.SaveAs(saveFileDialog.FileName);
+            }
+        }
+
+        private void WriteToLogFile(IEnumerable<string> entries)
+        {
+            try
+            {
+                var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                var logEntries = entries.Select(entry => $"[{timestamp}] {entry}");
+                System.IO.File.AppendAllLines(logFilePath, logEntries);
+            }
+            catch (Exception ex)
+            {
+                // Silently handle file write errors to avoid interrupting monitoring
+                // In a production app, you might want to log this error somewhere else
+            }
+        }
+
+        private void CheckBoxLogging_CheckedChanged(object sender, EventArgs e)
+        {
+            var checkBox = sender as CheckBox;
+            if (checkBox == null) return;
+
+            if (checkBox.Checked)
+            {
+                // Enable logging - show file dialog to select log file path
+                var saveFileDialog = CreateSaveFileDialog(DefaultLogFileName, LogFileFilter, SelectLogFileTitle);
+                
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    logFilePath = saveFileDialog.FileName;
+                    isLoggingEnabled = true;
+                    
+                    // Write header to log file
+                    try
+                    {
+                        var header = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Monitoring log started";
+                        System.IO.File.AppendAllLines(logFilePath, new[] { header, "" });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Failed to create log file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        checkBox.Checked = false;
+                        isLoggingEnabled = false;
+                        logFilePath = string.Empty;
+                    }
+                }
+                else
+                {
+                    // User cancelled file dialog
+                    checkBox.Checked = false;
+                    isLoggingEnabled = false;
+                    logFilePath = string.Empty;
+                }
+            }
+            else
+            {
+                // Disable logging
+                if (isLoggingEnabled && !string.IsNullOrEmpty(logFilePath))
+                {
+                    try
+                    {
+                        var footer = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Monitoring log ended";
+                        System.IO.File.AppendAllLines(logFilePath, new[] { footer, "" });
+                    }
+                    catch (Exception ex)
+                    {
+                        // Silently handle write errors when stopping
+                    }
+                }
+                
+                isLoggingEnabled = false;
+                logFilePath = string.Empty;
             }
         }
     }
