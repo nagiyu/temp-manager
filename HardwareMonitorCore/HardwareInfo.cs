@@ -1,10 +1,6 @@
-﻿using Iot.Device.HardwareMonitor;
-using OHMService.Models;
-using System;
+﻿using OHMService.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OHMService
 {
@@ -24,7 +20,7 @@ namespace OHMService
 
         public static string GetIdentifier(string hardwareName)
         {
-            return hardwareMappingList.FirstOrDefault(x => x.HardwareName == hardwareName).Identifier;
+            return hardwareMappingList.FirstOrDefault(x => x.HardwareName == hardwareName)?.Identifier ?? string.Empty;
         }
     }
 }
