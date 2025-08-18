@@ -35,14 +35,20 @@ namespace WinFormsApp1
             }
 
             var checkedItems = checkedListBox1.CheckedItems.Cast<string>();
-            var newEntries = checkedItems
+            var temperatureEntries = checkedItems
                 .Select(item => HardwareMonitor.OutputTemperature(item))
                 .Where(entry => !string.IsNullOrEmpty(entry));
+            
+            var usageEntries = checkedItems
+                .Select(item => HardwareMonitor.OutputUsage(item))
+                .Where(entry => !string.IsNullOrEmpty(entry));
 
-            if (newEntries.Any())
+            var allEntries = temperatureEntries.Concat(usageEntries);
+
+            if (allEntries.Any())
             {
                 var stringBuilder = new StringBuilder();
-                foreach (var entry in newEntries)
+                foreach (var entry in allEntries)
                 {
                     stringBuilder.AppendLine(entry);
                 }
