@@ -41,6 +41,7 @@ namespace WindowsFormsApp1
             button3 = new Button();
             outputTextButton = new Button();
             outputExcelButton = new Button();
+            checkBoxLogging = new CheckBox();
             SuspendLayout();
             // 
             // checkedListBox1
@@ -101,6 +102,18 @@ namespace WindowsFormsApp1
             outputExcelButton.Click += Click_OutputExcel;
 
             // 
+            // checkBoxLogging
+            // 
+            checkBoxLogging.AutoSize = true;
+            checkBoxLogging.Location = new Point(441, 12);
+            checkBoxLogging.Name = "checkBoxLogging";
+            checkBoxLogging.Size = new Size(128, 19);
+            checkBoxLogging.TabIndex = 8;
+            checkBoxLogging.Text = "Enable Log Output";
+            checkBoxLogging.UseVisualStyleBackColor = true;
+            checkBoxLogging.CheckedChanged += CheckBoxLogging_CheckedChanged;
+
+            // 
             // textBox1
             // 
             textBox1.Location = new Point(12, 231);
@@ -121,6 +134,7 @@ namespace WindowsFormsApp1
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(checkBoxLogging);
             Controls.Add(outputExcelButton);
             Controls.Add(outputTextButton);
             Controls.Add(button3);
@@ -146,6 +160,9 @@ namespace WindowsFormsApp1
 
         // OutputExcelButton
         private Button outputExcelButton;
+        
+        // Logging checkbox
+        private CheckBox checkBoxLogging;
     }
 }
 
