@@ -60,7 +60,7 @@ namespace WindowsFormsApp1
             button1.TabIndex = 1;
             button1.Text = "Get Tempreture";
             button1.UseVisualStyleBackColor = true;
-            button1.Click += Click_GetTempreture;
+            button1.Click += Click_GetTemperature;
             // 
             // button2
             // 
