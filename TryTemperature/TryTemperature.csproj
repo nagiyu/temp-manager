@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HardwareMonitorCore\HardwareMonitorCore.csproj" />
+    <ProjectReference Include="..\HardwareMonitorCore\OHMService.csproj" />
   </ItemGroup>
 
 </Project>

@@ -14,7 +14,8 @@ namespace OHMService
         private const string DebugSensorName = "Sensor";
         private const string DebugSensorValue = "hogehoge";
         private const string ErrorValueNotRetrieved = "Value could not be retrieved.";
-        private const string ErrorSensorNotFound = "Temperature sensor not found.";
+        private const string ErrorTemperatureSensorNotFound = "Temperature sensor not found.";
+        private const string ErrorUsageSensorNotFound = "Usage sensor not found.";
         private const string ErrorPrefix = "Error: ";
         
         public static List<HardwareMappingList> GetHardwareComponents()
@@ -67,7 +68,7 @@ namespace OHMService
 
             if (string.IsNullOrEmpty(identifier))
             {
-                return ErrorSensorNotFound;
+                return ErrorTemperatureSensorNotFound;
             }
 
             try
@@ -80,12 +81,52 @@ namespace OHMService
 
                 if (temperatureSensor == null)
                 {
-                    return ErrorSensorNotFound;
+                    return ErrorTemperatureSensorNotFound;
                 }
 
                 if (temperatureSensor.TryGetValue(out IQuantity value))
                 {
                     return $"Hardware: {hardwareName}, Name: {temperatureSensor.Name}, Sensor value: {value.Value}";
+                }
+
+                return ErrorValueNotRetrieved;
+            }
+            catch (Exception e)
+            {
+                return ErrorPrefix + e.Message;
+            }
+        }
+
+        public static string OutputUsage(string hardwareName)
+        {
+            var identifier = HardwareInfo.GetIdentifier(hardwareName);
+
+            if (Utils.IsDebugging())
+            {
+                return $"Hardware: {hardwareName}, Name: {DebugSensorName}, Usage value: {DebugSensorValue}%";
+            }
+
+            if (string.IsNullOrEmpty(identifier))
+            {
+                return ErrorUsageSensorNotFound;
+            }
+
+            try
+            {
+                var monitor = new OpenHardwareMonitor();
+                
+                var usageSensor = monitor.GetSensorList()
+                    .Where(sensor => sensor.SensorType == SensorType.Load)
+                    .FirstOrDefault(sensor => sensor.Parent == identifier);
+
+                if (usageSensor == null)
+                {
+                    return ErrorUsageSensorNotFound;
+                }
+
+                if (usageSensor.TryGetValue(out IQuantity value))
+                {
+                    return $"Hardware: {hardwareName}, Name: {usageSensor.Name}, Usage value: {value.Value}%";
                 }
 
                 return ErrorValueNotRetrieved;

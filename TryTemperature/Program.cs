@@ -1,4 +1,4 @@
-﻿using HardwareMonitor;
+﻿using OHMService;
 
 class Program
 {
@@ -17,7 +17,11 @@ class Program
 
         while (!Console.KeyAvailable)
         {
-            Console.WriteLine(HardwareMonitor.HardwareMonitor.OutputTemprature("NVIDIA NVIDIA GeForce GTX 1070"));
+            Console.WriteLine("=== Temperature ===");
+            Console.WriteLine(HardwareMonitor.OutputTemperature("NVIDIA NVIDIA GeForce GTX 1070"));
+            Console.WriteLine("=== Usage ===");
+            Console.WriteLine(HardwareMonitor.OutputUsage("NVIDIA NVIDIA GeForce GTX 1070"));
+            Console.WriteLine();
             Thread.Sleep(1000);
         }
         Console.ReadKey();
